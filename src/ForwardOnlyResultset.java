@@ -1,5 +1,14 @@
 import java.sql.*;
 
+/*
+ Forward-only and read-only ResultSet:
+ - ResultSet.TYPE_FORWARD_ONLY: This type of ResultSet allows the cursor to move only in the forward direction.
+ It is suitable for scenarios where we need to read through data sequentially without needing to revisit previous rows.
+ 
+ - ResultSet.CONCUR_READ_ONLY: This concurrency mode indicates that the ResultSet cannot be updated.
+ It ensures that the ResultSet is used only for reading data, providing improved performance in read-only scenarios. 
+ */
+
 public class ForwardOnlyResultset {
 
     public static void main(String[] args) {
@@ -10,10 +19,10 @@ public class ForwardOnlyResultset {
 
         try {
             Class.forName("org.postgresql.Driver");
-
+            
             Connection connection = DriverManager.getConnection(url, user, password);
 
-            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 
             readData(statement);
 
